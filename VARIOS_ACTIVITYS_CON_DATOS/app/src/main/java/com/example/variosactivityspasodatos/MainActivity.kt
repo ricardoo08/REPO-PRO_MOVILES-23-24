@@ -21,8 +21,8 @@ class MainActivity : AppCompatActivity() {
         //podriamos crear aqui el objeto y pasarlo,en vez de los atributos individualmente.
         // Persona deberia ser serializable en ese caso
         var miIntent: Intent = Intent(this, Ventana_2::class.java)
-        //miIntent.putExtra("nombre",binding.cajaNombre.text.toString())
-        //miIntent.putExtra("edad",binding.cajaEdad.text.toString())
+        miIntent.putExtra("nombre",binding.cajaNombre.text.toString())
+        miIntent.putExtra("edad",binding.cajaEdad.text.toString())
         startActivity(miIntent)
     }
 }
