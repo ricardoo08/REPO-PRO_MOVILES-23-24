@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF17A"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/txtEnc"
+        android:layout_width="103dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="28dp"
+        android:text="Encuesta"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pedNom"
+        android:layout_width="64dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="140dp"
+        android:text="Nombre:"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pedSop"
+        android:layout_width="199dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="208dp"
+        android:text="Sistema operativo preferido"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.178"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pedEsp"
+        android:layout_width="92dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="324dp"
+        android:text="Especialidad"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.119"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="65dp"
+        android:layout_height="26dp"
+        android:text="DAW"
+        tools:layout_editor_absoluteX="136dp"
+        tools:layout_editor_absoluteY="354dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox3"
+        android:layout_width="67dp"
+        android:layout_height="28dp"
+        android:text="ASIR"
+        tools:layout_editor_absoluteX="136dp"
+        tools:layout_editor_absoluteY="380dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="65dp"
+        android:layout_height="28dp"
+        android:text="DAM"
+        tools:layout_editor_absoluteX="136dp"
+        tools:layout_editor_absoluteY="326dp" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="104dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="312dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtNom"
+        android:layout_width="167dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="120dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Tu Nombre..."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.434"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/swAnonimo"
+        android:layout_width="115dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="120dp"
+        android:text="Anónimo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.945"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioButton
+        android:id="@+id/radioButton3"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="492dp"
+        android:text="MAC"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.691"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioButton
+        android:id="@+id/radioButton2"
+        android:layout_width="83dp"
+        android:layout_height="29dp"
+        android:text="LINUX"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.383"
+        tools:layout_editor_absoluteX="240dp" />
+
+    <RadioButton
+        android:id="@+id/radioButton"
+        android:layout_width="106dp"
+        android:layout_height="33dp"
+        android:text="WINDOWS"
+        tools:layout_editor_absoluteX="240dp"
+        tools:layout_editor_absoluteY="236dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
