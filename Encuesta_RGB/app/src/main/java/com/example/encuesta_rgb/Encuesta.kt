@@ -1,14 +1,8 @@
 package com.example.encuesta_rgb
-enum class sisOper{
-    LINUX,MICORSOFT,MAC
-}
-enum class espe{
-    DAW,DAM,ASIR
-}
 class Encuesta (
     val nombre: String,
-    val sistemaOperativo: sisOper,
-    val especialidad: espe,
+    val sistemaOperativo: String,
+    val especialidad: String,
     val horasEstudio: Int
 )    {
         override fun toString(): String {
