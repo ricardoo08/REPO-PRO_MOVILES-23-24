@@ -56,8 +56,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        horasEst= binding.seekBar.progress
-        binding.txtBar.setText(horasEst.toString())
+        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                horasEst = progress
+                binding.txtBar.text = horasEst.toString()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
     fun Validar(view: View) {
         val encuesta = Encuesta(nombre, sisOp, espe, horasEst)
@@ -67,6 +74,7 @@ class MainActivity : AppCompatActivity() {
         espe = ""
         horasEst = 0
         binding.cajaNombres.text = ""
+        Limpiar()
     }
     fun Cuantas(view: View) {
         val totalEncuestas = encuestasList.size
@@ -81,6 +89,7 @@ class MainActivity : AppCompatActivity() {
             resumenEncuestas.append("\n\n")
         }
         binding.cajaNombres.text = resumenEncuestas.toString()
+        Limpiar()
     }
     fun Reiniciar(view: View) {
         encuestasList.clear()
@@ -89,11 +98,15 @@ class MainActivity : AppCompatActivity() {
         espe = ""
         horasEst = 0
         binding.cajaNombres.text = ""
+        Limpiar()
+    }
+    fun Limpiar(){
         binding.txtBar.text = ""
         binding.txtNom.text.clear()
         binding.swAnonimo.isChecked = false
         binding.seekBar.progress = 0
         binding.gruSis.clearCheck()
         binding.gruEsp.clearCheck()
+
     }
 }
