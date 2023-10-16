@@ -28,7 +28,7 @@ class Ventana2 : AppCompatActivity() {
         for (p in Singleton.listaUsuarios){
             cadena+="$i. Nombre: $nombre  Apellido: $apellido  DNI: $dni  Gmail: $gmail  Contraseña: $contrasena"
             i++
-            binding.multiLine.setText(cadena)
+            binding.multiLine.setText(cadena+"\n")
         }
 
         binding.btnVol.setOnClickListener {
