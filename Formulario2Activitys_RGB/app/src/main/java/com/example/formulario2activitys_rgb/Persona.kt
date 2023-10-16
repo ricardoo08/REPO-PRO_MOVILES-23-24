@@ -1,4 +1,4 @@
-package Recursos
+package com.example.formulario2activitys_rgb
 data class Persona(
     val nombre: String,
     val apellido: String,
