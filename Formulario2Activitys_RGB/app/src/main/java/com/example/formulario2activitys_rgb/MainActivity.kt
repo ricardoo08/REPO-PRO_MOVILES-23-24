@@ -3,6 +3,7 @@ package com.example.formulario2activitys_rgb
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.Toast
 import com.example.formulario2activitys_rgb.databinding.ActivityMainBinding
 
@@ -32,13 +33,8 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         val nuevoUsuario = Persona(nombre, apellido, dni, gmail, contrasena)
                         Singleton.listaUsuarios.add(nuevoUsuario)
+                        irVentana2()
 
-                        val intent = Intent(this, ConfirmationActivity::class.java)
-                        intent.putExtra("nombre", nombre)
-                        intent.putExtra("apellido", apellido)
-                        intent.putExtra("dni", dni)
-                        intent.putExtra("gmail", gmail)
-                        startActivity(intent)
                     }
                 }
             }
@@ -46,11 +42,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun validarCampos(): Boolean {
-        val nombre = binding.etNombre.text.toString()
-        val apellido = binding.etApellido.text.toString()
-        val dni = binding.etDNI.text.toString()
-        val gmail = binding.etGmail.text.toString()
-        val contrasena = binding.etContrasena.text.toString()
+        val nombre = binding.txtNom.text.toString()
+        val apellido = binding.txtApe.text.toString()
+        val dni = binding.txtDNI.text.toString()
+        val gmail = binding.txtGmail.text.toString()
+        val contrasena = binding.txtCon.text.toString()
 
         if (TextUtils.isEmpty(nombre) || TextUtils.isEmpty(apellido) ||
             TextUtils.isEmpty(dni) || TextUtils.isEmpty(gmail) ||
@@ -64,11 +60,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun usuarioExiste(dni: String): Boolean {
-        for (usuario in AlmacenUsuarios.listaUsuarios) {
+        for (usuario in Singleton.listaUsuarios) {
             if (usuario.dni == dni) {
                 return true
             }
         }
         return false
+    }
+    private fun irVentana2(){
+        val intent = Intent(this, Ventana2::class.java)
+        intent.putExtra("nombre", binding.txtNom.text.toString())
+        intent.putExtra("apellido", binding.txtApe.text.toString())
+        intent.putExtra("dni", binding.txtDNI.text.toString())
+        intent.putExtra("gmail", binding.txtGmail.text.toString())
+        intent.putExtra("contrasena",binding.txtCon.text.toString())
+        startActivity(intent)
     }
 }
