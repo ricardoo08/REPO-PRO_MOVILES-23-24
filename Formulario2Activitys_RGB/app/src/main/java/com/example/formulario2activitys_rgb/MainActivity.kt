@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         val nuevoUsuario = Persona(nombre, apellido, dni, gmail, contrasena)
                         Singleton.listaUsuarios.add(nuevoUsuario)
+
                         irVentana2()
 
                     }
