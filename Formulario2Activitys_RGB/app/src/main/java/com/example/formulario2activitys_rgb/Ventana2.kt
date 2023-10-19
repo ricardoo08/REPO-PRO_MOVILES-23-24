@@ -28,9 +28,9 @@ class Ventana2 : AppCompatActivity() {
         for (p in Singleton.listaUsuarios) {
             cadena += "$i. Nombre: ${p.nombre}  Apellido: ${p.apellido}  DNI: ${p.dni}  Gmail: ${p.gmail}  Contraseña: ${p.contrasena}\n"
             i++
+
         }
         binding.multiLine.setText(cadena)
-
         binding.btnVol.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
