@@ -1,5 +1,6 @@
 package com.example.tresenraya_rgb
 
+import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -9,119 +10,141 @@ import com.example.tresenraya_rgb.databinding.ActivityMainBinding
 
 lateinit var binding: ActivityMainBinding
 class MainActivity : AppCompatActivity() {
+    private val TAGJ1 = "CRISTIANO"
+    private val TAGJ2 = "ELMUNDO"
     var jugadorActual='X'
-    var salir=false
+    var cont=0
+    var cont1=0
+    lateinit var tablero: Array<Array<ImageView>>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val tablero = mutableMapOf<String, ImageView>()
-        tablero["00"] = findViewById(R.id.img11)
-        tablero["01"] = findViewById(R.id.img12)
-        tablero["02"] = findViewById(R.id.img13)
-        tablero["10"] = findViewById(R.id.img21)
-        tablero["11"] = findViewById(R.id.img22)
-        tablero["12"] = findViewById(R.id.img23)
-        tablero["20"] = findViewById(R.id.img31)
-        tablero["21"] = findViewById(R.id.img32)
-        tablero["22"] = findViewById(R.id.img33)
-
-        for ((_, imageView) in tablero) {
-            imageView.setOnClickListener {
-                manejarClicCasilla(imageView,tablero)
+        tablero = Array(3) { row ->
+            Array(3) { col ->
+                val id = resources.getIdentifier("img${row + 1}${col + 1}", "id", packageName)
+                findViewById<ImageView>(id)
             }
         }
+        for (row in tablero.indices) {
+            for (col in tablero[row].indices) {
+                tablero[row][col].setOnClickListener {
+                    manejarClicCasilla(tablero[row][col], row, col)
+                }
+                tablero[row][col].tag=(row + col).toString()
+            }
+            tablero[row][2].tag=(row + 3).toString()
+        }
         binding.btnRnc.setOnClickListener {
-            reiniciarJuego(tablero)
+            reiniciarJuego()
         }
     }
-    private fun manejarClicCasilla(imageView: ImageView,tablero: Map<String, ImageView>) {
+    private fun manejarClicCasilla(imageView: ImageView, fila: Int, columna: Int) {
         if (imageView.drawable.constantState == ContextCompat.getDrawable(this, R.drawable.pregunta)?.constantState) {
             // Verifica si la casilla está vacía
-            imageView.setImageResource(if (jugadorActual == 'X') {
-                R.drawable.milan_
-            } else R.drawable.inter_milan)
-            // Cambia la imagen del jugador actual
 
-            if (partidaGanada(tablero)) {
+            if (jugadorActual == 'X') {
+                imageView.setImageResource(R.drawable.milan_)
+                imageView.setTag(TAGJ1)
+            } else {
+                imageView.setImageResource(R.drawable.inter_milan)
+                imageView.setTag(TAGJ2)
+                // Cambia la imagen del jugador actual
+            }
+            if (partidaGanada()) {
                 // Verifica si alguien ha ganado
                 mostrarGanador()
-                reiniciarTablero(tablero)
+                if (jugadorActual == 'X') {
+                    cont++
+                    binding.ganJug1.text = cont.toString()
+                } else {
+                    cont1++
+                    binding.ganJug2.text = cont1.toString()
+                }
+                reiniciarTablero()
             } else {
                 jugadorActual = if (jugadorActual == 'X') {
                     'O'
-                }else 'X'
+                } else 'X'
             }
+
         } else {
             Toast.makeText(this, "Has elegido una casilla que está ocupada, vuelve a elegir", Toast.LENGTH_SHORT).show()
         }
     }
-    fun partidaGanada(tablero: Map<String, ImageView>): Boolean {
+
+    private fun partidaGanada(): Boolean {
         // Verificar filas
-        if (
-            (tablero["00"]?.drawable != null &&
-                    tablero["00"]?.drawable == tablero["01"]?.drawable &&
-                    tablero["01"]?.drawable == tablero["02"]?.drawable) ||
-            (tablero["10"]?.drawable != null &&
-                    tablero["10"]?.drawable == tablero["11"]?.drawable &&
-                    tablero["11"]?.drawable == tablero["12"]?.drawable) ||
-            (tablero["20"]?.drawable != null &&
-                    tablero["20"]?.drawable == tablero["21"]?.drawable &&
-                    tablero["21"]?.drawable == tablero["22"]?.drawable)
-        ) {
-            return true
+        for (fila in 0..2) {
+            if (
+                tablero[fila][0].tag == tablero[fila][1].tag &&
+                tablero[fila][1].tag == tablero[fila][2].tag &&
+                tablero[fila][2].tag == tablero[fila][1].tag
+            ) {
+                return true
+            }
         }
 
         // Verificar columnas
-        if (
-            (tablero["00"]?.drawable != null &&
-                    tablero["00"]?.drawable == tablero["10"]?.drawable &&
-                    tablero["10"]?.drawable == tablero["20"]?.drawable) ||
-            (tablero["01"]?.drawable != null &&
-                    tablero["01"]?.drawable == tablero["11"]?.drawable &&
-                    tablero["11"]?.drawable == tablero["21"]?.drawable) ||
-            (tablero["02"]?.drawable != null &&
-                    tablero["02"]?.drawable == tablero["12"]?.drawable &&
-                    tablero["12"]?.drawable == tablero["22"]?.drawable)
-        ) {
-            return true
+        for (columna in 0..2) {
+            if (
+                tablero[0][columna].tag == tablero[1][columna].tag &&
+                tablero[1][columna].tag == tablero[2][columna].tag
+            ) {
+                return true
+            }
         }
 
         // Verificar diagonales
         if (
-            (tablero["00"]?.drawable != null &&
-                    tablero["00"]?.drawable == tablero["11"]?.drawable &&
-                    tablero["11"]?.drawable == tablero["22"]?.drawable) ||
-            (tablero["02"]?.drawable != null &&
-                    tablero["02"]?.drawable == tablero["11"]?.drawable &&
-                    tablero["11"]?.drawable == tablero["20"]?.drawable)
+            (tablero[0][0].tag == tablero[1][1].tag &&
+                    tablero[1][1].tag == tablero[2][2].tag) ||
+            (tablero[0][2].tag == tablero[1][1].tag &&
+                    tablero[1][1].tag == tablero[2][0].tag)
         ) {
             return true
         }
 
         return false
     }
-    fun reiniciarTablero(tablero: Map<String, ImageView>) {
-        // Restablece todas las casillas del tablero a la imagen inicial "R.drawable.pregunta"
-        for ((_, imageView) in tablero) {
-            imageView.setImageResource(R.drawable.pregunta)
-        }
-        jugadorActual='X'
-    }
-    fun reiniciarJuego(tablero: Map<String, ImageView>) {
-        // Restablece todas las casillas del tablero a la imagen inicial "R.drawable.pregunta"
-        for ((_, imageView) in tablero) {
-            imageView.setImageResource(R.drawable.pregunta)
-        }
-        jugadorActual='X'
-        binding.ganJug1.setText(0) // Reinicia el marcador de victorias del Jugador 1
-        binding.ganJug2.setText(0) // Reinicia el marcador de victorias del Jugador 2
 
+    private fun reiniciarTablero() {
+        // Restablece todas las casillas del tablero a la imagen inicial "R.drawable.pregunta"
+        for (fila in tablero) {
+            for (imageView in fila) {
+                imageView.setImageResource(R.drawable.pregunta)
+            }
+        }
+        for (row in tablero.indices) {
+            for (col in tablero[row].indices) {
+                tablero[row][col].tag=(row + col).toString()
+            }
+            tablero[row][2].tag=(row + 3).toString()
+        }
+        jugadorActual = 'X'
     }
+
+    private fun reiniciarJuego() {
+        // Restablece todas las casillas del tablero a la imagen inicial "R.drawable.pregunta"
+        for (fila in tablero) {
+            for (imageView in fila) {
+                imageView.setImageResource(R.drawable.pregunta)
+            }
+        }
+        jugadorActual = 'X'
+        binding.ganJug1.text = "0" // Reinicia el marcador de victorias del Jugador 1
+        binding.ganJug2.text = "0" // Reinicia el marcador de victorias del Jugador 2
+        cont = 0
+        cont1 = 0
+        for (row in tablero.indices) {
+            for (col in tablero[row].indices) {
+                tablero[row][col].tag=(row + col).toString()
+            }
+            tablero[row][2].tag=(row + 3).toString()
+        }
+    }
+
     private fun mostrarGanador() {
         Toast.makeText(this, "**** HA GANADO EL JUGADOR $jugadorActual ****", Toast.LENGTH_SHORT).show()
     }
-
-
-
 }
