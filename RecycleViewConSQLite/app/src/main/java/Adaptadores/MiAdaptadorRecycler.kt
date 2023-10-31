@@ -17,8 +17,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recycleequipos.R
 import com.example.recycleviewconsqlite.R
+
 
 class MiAdaptadorRecycler(var personajes : ArrayList<Persona>, var  context: Context) : RecyclerView.Adapter<MiAdaptadorRecycler.ViewHolder>(){
 
