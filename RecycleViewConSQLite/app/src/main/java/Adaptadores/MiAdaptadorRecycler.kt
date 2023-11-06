@@ -52,17 +52,8 @@ class MiAdaptadorRecycler(var personajes : ArrayList<Persona>, var  context: Con
      *  Como su nombre indica lo que hará será devolvernos un objeto ViewHolder al cual le pasamos la celda que hemos creado.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        val layoutInflater = LayoutInflater.from(parent.context)
-//        //return ViewHolder(layoutInflater.inflate(R.layout.item_lo,parent,false))
-//        return ViewHolder(layoutInflater.inflate(R.layout.item_card,parent,false))
-
-        //Este método infla cada una de las CardView
-
-        val vista = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
-        val viewHolder = ViewHolder(vista)
-        // Configurar el OnClickListener para pasar a la segunda ventana.
-
-        return viewHolder
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return ViewHolder(layoutInflater.inflate(R.layout.item_card,parent,false))
     }
 
     /**

@@ -27,13 +27,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        var pers:Persona
         binding.btnAdd.setOnClickListener {
             if (binding.edNom.text.toString().trim().isEmpty() || binding.edNac.text.toString().trim().isEmpty()
                 || binding.edEqu.text.toString().trim().isEmpty()){
                 Toast.makeText(this, "Campos en blanco", Toast.LENGTH_SHORT).show()
             }
             else {
-                var pers: Persona = Persona(
+                pers =  Persona(
                     binding.edNom.getText().toString(),
                     binding.edNac.getText().toString(),
                     binding.edEqu.getText().toString()
@@ -46,28 +47,29 @@ class MainActivity : AppCompatActivity() {
                 //la L es por ser un Long lo que trae codigo.
                 if(codigo!=-1L) {
                     Toast.makeText(this, "Persona insertada", Toast.LENGTH_SHORT).show()
-                    listarPersonas(miRecyclerView)
+                    //listarPersonas()
                 }
                 else
                     Toast.makeText(this, "Ya existe ese DNI. Persona NO insertada", Toast.LENGTH_SHORT).show()
             }
         }
     }
+    @JvmOverload
     fun listarPersonas(view: View) {
-        var listado:ArrayList<Persona> = Conexion.obtenerPersonas(this)
-        if (listado.size==0) {
+        var lista = Conexion.obtenerPersonas(this)
+        if (lista.size == 0) {
             Toast.makeText(this, "No existen datos en la tabla", Toast.LENGTH_SHORT).show()
-        }
-        else {
+        } else {
             miRecyclerView = binding.listaPersonasRecycler as RecyclerView
-            miRecyclerView.setHasFixedSize(true)//hace que se ajuste a lo que has diseñado
-            miRecyclerView.layoutManager = LinearLayoutManager(this)//se dice el tipo de Layout, dejampos este.
-            //esta es la clave. Creo un objeto de tipo Mi Adaptador y le paso la lista que he creado prevaimente más arriba.
-            //aquí, es donde inflará y pintará cada CardView.
-            var miAdapter = MiAdaptadorRecycler(Almacen.personas, this)
-            //aquí es donde hace la "magia", al pasarle a mi Recicler View, el adaptador creado.
-            miRecyclerView.adapter = miAdapter
-            contextoPrincipal = this
+            miRecyclerView.setHasFixedSize(true)
+            miRecyclerView.layoutManager = LinearLayoutManager(this)
+            // Inicializa el adaptador con los datos que deseas mostrar // Reemplaza con la función que obtiene tus datos
+
+            var adapter = MiAdaptadorRecycler(lista, this) // Reemplaza con tu adaptador personalizado
+
+            miRecyclerView.adapter = adapter // Asigna el adaptador al RecyclerView
         }
     }
+
+    annotation class JvmOverload
 }

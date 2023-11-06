@@ -70,7 +70,6 @@
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="addPersona"
             android:text="Añadir"
             android:textSize="12sp" />
 
@@ -78,7 +77,6 @@
             android:id="@+id/btnBuscar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="buscarPersona"
             android:text="Buscar"
             android:textSize="12sp" />
 
@@ -86,7 +84,6 @@
             android:id="@+id/btnBorrar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="delPersona"
             android:text="Borrar"
             android:textSize="12sp" />
 
@@ -94,14 +91,13 @@
             android:id="@+id/btnEditar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="modPersona"
             android:text="Editar"
             android:textSize="12sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listaPersonasRecycler"
-        android:layout_width="410dp"
+        android:layout_width="0dp"
         android:layout_height="354dp"
         android:background="#29E6FF"
         app:layout_constraintBottom_toBottomOf="parent"

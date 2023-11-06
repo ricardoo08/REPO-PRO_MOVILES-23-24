@@ -8,7 +8,7 @@ import android.util.Log
 class AdminSQLIteConexion(context: Context, name: String, factory: SQLiteDatabase.CursorFactory?, version: Int) : SQLiteOpenHelper(context, name, factory, version) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        Log.e("ACSCO","Paso por OnCreate del AdminSQLLite")
+        Log.e("ACSCO", "Paso por OnCreate del AdminSQLLite")
         /*
         Este método se lanza automáticamente cuando se ejecuta SQLite por primera vez (función sobrrescrita ya que es obigatoria)
         Aquí crearíamos las tablas y claves si son más de una.
@@ -16,7 +16,9 @@ class AdminSQLIteConexion(context: Context, name: String, factory: SQLiteDatabas
         y pequeñas cosas, por lo tanto tampoco se metarán grandes sentencias yq que SQLite no está pensado para eso
         Para BBDD más complejas, ya usarmeos servicios externos.
         */
-        db.execSQL("create table personas(dni text primary key, nombre text, edad int)")
+
+        // Crea la nueva tabla
+        db.execSQL("CREATE TABLE persona (nombre TEXT, nacionalidad TEXT, imagen BLOB)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
