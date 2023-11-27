@@ -90,7 +90,14 @@ class MiAdaptadorRecycler (var personajes : ArrayList<Personaje>, var  context: 
         //val nombrePersonaje = view.findViewById(R.id.txtNombre) as TextView
         //val tipoPersonaje = view.findViewById(R.id.txtTipo) as TextView
         //val avatar = view.findViewById(R.id.imgImagen) as ImageView
+        val imageView = itemView.findViewById<ImageView>(R.id.imageView)
 
+        // Cargar imagen con Glide (asegúrate de agregar la dependencia en tu archivo build.gradle)
+        Glide.with(context)
+        .load("URL de la imagen o ID de recurso local")
+        .placeholder(R.drawable.tu_imagen_predeterminada)
+        .into(imageView)
+    }
         //Como en el ejemplo general de las listas (ProbandoListas) vemos que se puede inflar cada elemento con una card o con un layout.
         val nombrePersonaje = view.findViewById(R.id.txtNombre) as TextView
         val tipoPersonaje = view.findViewById(R.id.txtRaza) as TextView

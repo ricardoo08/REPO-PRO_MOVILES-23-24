@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.listas_rgb.R
 
 class MiAdaptadorRecycler (var listas : ArrayList<Lista>, var  context: Context) : RecyclerView.Adapter<MiAdaptadorRecycler.ViewHolder>(){
@@ -93,6 +95,13 @@ class MiAdaptadorRecycler (var listas : ArrayList<Lista>, var  context: Context)
          */
         @SuppressLint("ResourceAsColor")
         fun bind(list: Lista, context: Context, pos: Int, miAdaptadorRecycler: MiAdaptadorRecycler){
+            val imageView = itemView.findViewById<ImageView>(R.id.imgImagen)
+
+            // Cargar imagen con Glide (asegúrate de agregar la dependencia en tu archivo build.gradle)
+            Glide.with(context)
+                .load(R.drawable.notas)
+                .placeholder(R.drawable.notas)
+                .into(imageView)
             nombreLista.text = list.nombre
             mes.text = list.mes.toString()
             dia.text = list.dia.toString()
