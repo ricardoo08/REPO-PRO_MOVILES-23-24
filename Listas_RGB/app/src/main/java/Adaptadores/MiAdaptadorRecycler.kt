@@ -93,7 +93,6 @@ class MiAdaptadorRecycler (var listas : ArrayList<Lista>, var  context: Context)
         val nombreLista = view.findViewById(R.id.txtNombre) as TextView
         val mes = view.findViewById(R.id.ponMes) as TextView
         val dia = view.findViewById(R.id.ponDia) as TextView
-        val avatar = view.findViewById(R.id.imgImagen) as ImageView
 
         val btnDetalleEspcifico = view.findViewById<Button>(R.id.btDetalleCard) as Button
         /**
@@ -132,37 +131,10 @@ class MiAdaptadorRecycler (var listas : ArrayList<Lista>, var  context: Context)
                 }
                 else {
                     MiAdaptadorRecycler.seleccionado = pos
-                    var listado:ArrayList<Lista> = Conexion.obtenerListas(HomeLog())
-                    Log.e("ACSC0", "Seleccionado: ${listado.get(MiAdaptadorRecycler.seleccionado).toString()}")
                 }
-                //Con la siguiente instrucción forzamos a recargar el viewHolder porque han cambiado los datos. Así pintará al seleccionado.
 
                 miAdaptadorRecycler.notifyDataSetChanged()
-
-//                val intent = Intent(context, MainActivity2::class.java)
-//
-//                context.startActivity(intent)
-
-                Toast.makeText(context, "Valor seleccionado " +  MiAdaptadorRecycler.seleccionado.toString(), Toast.LENGTH_SHORT).show()
-
             }
-            itemView.setOnLongClickListener(View.OnLongClickListener {
-                var listado:ArrayList<Lista> = Conexion.obtenerListas(HomeLog())
-                Log.e("ACSCO","Seleccionado con long click: ${listado.get(pos).toString()}")
-                listado.removeAt(pos)
-                miAdaptadorRecycler.notifyDataSetChanged()
-                true //Tenemos que devolver un valor boolean.
-            })
-
-
-           /* btnDetalleEspcifico.setOnClickListener {
-                Log.e("Fernando","Has pulsado el botón de ${pers}")
-                var inte : Intent = Intent(MainActivity.contextoPrincipal, MainActivity2::class.java)
-                inte.putExtra("obj",pers)
-                ContextCompat.startActivity(MainActivity.contextoPrincipal, inte, null)
-            }
-            *
-            */
         }
     }
 }

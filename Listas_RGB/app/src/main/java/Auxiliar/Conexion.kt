@@ -79,7 +79,7 @@ object Conexion {
 
         val admin = AdminSQLIteConexion(contexto, this.DATABASE_NAME, null, DATABASE_VERSION)
         val bd = admin.readableDatabase
-        val fila = bd.rawQuery("select nombre,mes,dia from personas", null)
+        val fila = bd.rawQuery("select nombre,mes,dia from listas", null)
         while (fila.moveToNext()) {
             var l:Lista = Lista(fila.getString(0),fila.getInt(1),fila.getInt(2))
             listas.add(l)
