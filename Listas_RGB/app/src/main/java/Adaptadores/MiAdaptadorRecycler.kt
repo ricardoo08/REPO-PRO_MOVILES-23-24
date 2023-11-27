@@ -68,11 +68,6 @@ class MiAdaptadorRecycler (var listas : ArrayList<Lista>, var  context: Context)
         return listas.size
     }
 
-    fun actualizarLista(nuevaLista: ArrayList<Lista>) {
-        listas.clear()
-        listas.addAll(nuevaLista)
-        notifyDataSetChanged()
-    }
 
 
 

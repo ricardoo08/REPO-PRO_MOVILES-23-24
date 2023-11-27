@@ -52,6 +52,10 @@ class Notas() : AppCompatActivity() {
                 //la L es por ser un Long lo que trae codigo.
                 if (codigo != -1L) {
                     Toast.makeText(this, "Nota insertada", Toast.LENGTH_SHORT).show()
+                    listaNotas = Conexion2.obtenerNotas(this)
+                    var miAdapter = MiAdaptadorRecycler2(listaNotas, this)
+                    //aquí es donde hace la "magia", al pasarle a mi Recicler View, el adaptador creado.
+                    miRecyclerView2.adapter = miAdapter
                 } else
                     Toast.makeText(
                         this,
@@ -63,10 +67,11 @@ class Notas() : AppCompatActivity() {
         binding.btnBorrar.setOnClickListener {
             var listaNotas = Conexion2.obtenerNotas(this)
             if (MiAdaptadorRecycler2.seleccionado >= 0) {
-                val no = listaNotas.get(MiAdaptadorRecycler.seleccionado)
+                val no = listaNotas.get(MiAdaptadorRecycler2.seleccionado)
                 Conexion2.delNota(this,no.producto)
                 Toast.makeText(this, "Nota eliminada: ${no.producto}", Toast.LENGTH_SHORT).show()
                 // También puedes actualizar la lista en tu interfaz de usuario o recargarl
+                listaNotas.clear()
                 listaNotas = Conexion2.obtenerNotas(this)
                 var miAdapter = MiAdaptadorRecycler2(listaNotas, this)
                 //aquí es donde hace la "magia", al pasarle a mi Recicler View, el adaptador creado.

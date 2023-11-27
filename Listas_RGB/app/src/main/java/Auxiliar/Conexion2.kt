@@ -32,7 +32,7 @@ object Conexion2 {
         val admin = AdminSQLIteConexion2(contexto, this.DATABASE_NAME, null, DATABASE_VERSION)
         val bd = admin.writableDatabase
         //val cant = bd.delete("personas", "dni='${dni}'", null)
-        val cant = bd.delete("notas", "producto=?",null)
+        val cant = bd.delete("notas", "producto=?",arrayOf(producto))
         bd.close()
         return cant
     }

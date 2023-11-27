@@ -1,7 +1,9 @@
 package com.example.listas_rgb
 
 import Adaptadores.MiAdaptadorRecycler
+import Adaptadores.MiAdaptadorRecycler2
 import Auxiliar.Conexion
+import Auxiliar.Conexion2
 import Modelo.Lista
 import android.annotation.SuppressLint
 import android.content.Context
@@ -20,7 +22,7 @@ class ListasRecycler : AppCompatActivity() {
     lateinit var binding: ActivityListasRecyclerBinding
 
     lateinit var miRecyclerView : RecyclerView
-    companion object {
+    companion   object {
         @SuppressLint("StaticFieldLeak")
         lateinit var contextoPrincipal: Context
     }
@@ -47,6 +49,7 @@ class ListasRecycler : AppCompatActivity() {
                 val li = listaPersonas.get(MiAdaptadorRecycler.seleccionado)
                 val db = FirebaseFirestore.getInstance()
                 Conexion.delLista(this,li.nombre)
+
                 Toast.makeText(this, "Lista eliminada: ${li.nombre}", Toast.LENGTH_SHORT).show()
                 // También puedes actualizar la lista en tu interfaz de usuario o recargarla
                 db.collection("listas")
@@ -55,7 +58,9 @@ class ListasRecycler : AppCompatActivity() {
                     .addOnSuccessListener {
                         Toast.makeText(this, "Lista eliminada: ${li.nombre}", Toast.LENGTH_SHORT).show()
                         val nuevaLista = Conexion.obtenerListas(this)
-                        miAdapter.actualizarLista(nuevaLista)
+                        var miAdapter = MiAdaptadorRecycler(nuevaLista, this)
+                        //aquí es donde hace la "magia", al pasarle a mi Recicler View, el adaptador creado.
+                        miRecyclerView.adapter = miAdapter
                     }
                     .addOnFailureListener {
                         Toast.makeText(this, "Error al intentar eliminar la lista: ${li.nombre}", Toast.LENGTH_SHORT).show()

@@ -61,10 +61,12 @@ class HomeLog : AppCompatActivity() {
                     }
 
                     Toast.makeText(this, "Eliminado", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
                 .addOnFailureListener{
                     Toast.makeText(this, "No se ha encontrado el documento a eliminar", Toast.LENGTH_SHORT).show()
                 }
+
 
         }
         binding.btCerrarSesion.setOnClickListener {
