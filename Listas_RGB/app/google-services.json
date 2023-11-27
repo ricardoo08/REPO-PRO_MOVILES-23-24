@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "807881816733",
+    "project_id": "listas-rgb",
+    "storage_bucket": "listas-rgb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807881816733:android:cc22cfde4905b5bc87f274",
+        "android_client_info": {
+          "package_name": "com.example.listas_rgb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJurm75eiOT9Sn8tw4iJLcPqVclRNamCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
