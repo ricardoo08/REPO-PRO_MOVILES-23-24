@@ -12,7 +12,12 @@
           "package_name": "com.example.listas_rgb"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "807881816733-sqilpqmdc9hkjj32inbpnni09m2goa3u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBJurm75eiOT9Sn8tw4iJLcPqVclRNamCg"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807881816733-hujnmpve0e57n33k8og2uafeekk4l4om.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

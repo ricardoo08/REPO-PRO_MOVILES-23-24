@@ -2,6 +2,7 @@ package com.example.listas_rgb
 
 import Auxiliar.Conexion
 import Modelo.Lista
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -124,6 +125,21 @@ class HomeLog : AppCompatActivity() {
                 }
             }
         }
+        binding.btMostar.setOnClickListener {
+            // Obtener la lista de personas usando la función listarPersonas
+            val listadoPersonas: ArrayList<Lista> = listarPersonas()
+
+            // Crear un Intent para iniciar la actividad ListasRecycler
+            val intent = Intent(this, ListasRecycler::class.java)
+
+            // Pasar la lista como un extra al Intent
+            intent.putExtra("lista_personas", listadoPersonas)
+
+            // Iniciar la nueva actividad
+            startActivity(intent)
+
+        }
+
 
     }
     fun listarPersonas(): ArrayList<Lista> {
