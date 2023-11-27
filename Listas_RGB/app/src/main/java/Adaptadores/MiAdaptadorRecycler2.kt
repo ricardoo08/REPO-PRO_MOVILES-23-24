@@ -1,6 +1,7 @@
 package Adaptadores
 
 import Modelo.Lista
+import Modelo.Nota
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listas_rgb.R
 
-class MiAdaptadorRecycler (var listas : ArrayList<Lista>, var  context: Context) : RecyclerView.Adapter<MiAdaptadorRecycler.ViewHolder>(){
+class MiAdaptadorRecycler2 (var nota : ArrayList<Nota>, var  context: Context) : RecyclerView.Adapter<MiAdaptadorRecycler2.ViewHolder>(){
 
     companion object {
         //Esta variable estática nos será muy útil para saber cual está marcado o no.
@@ -35,7 +36,7 @@ class MiAdaptadorRecycler (var listas : ArrayList<Lista>, var  context: Context)
      * Esta a su vez llama a holder.bind, que está implementado más abajo.
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = listas.get(position)
+        val item = nota.get(position)
         holder.bind(item, context, position, this)
     }
 
@@ -49,7 +50,7 @@ class MiAdaptadorRecycler (var listas : ArrayList<Lista>, var  context: Context)
 
         //Este método infla cada una de las CardView
 
-        val vista = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
+        val vista = LayoutInflater.from(parent.context).inflate(R.layout.item_card2, parent, false)
         val viewHolder = ViewHolder(vista)
         // Configurar el OnClickListener para pasar a la segunda ventana.
         //viewHolder.itemView.setOnClickListener {
@@ -65,14 +66,10 @@ class MiAdaptadorRecycler (var listas : ArrayList<Lista>, var  context: Context)
      */
     override fun getItemCount(): Int {
         //del array list que se pasa, el size, así sabe los elementos a pintar.
-        return listas.size
+        return nota.size
     }
 
-    fun actualizarLista(nuevaLista: ArrayList<Lista>) {
-        listas.clear()
-        listas.addAll(nuevaLista)
-        notifyDataSetChanged()
-    }
+
 
 
 
@@ -89,31 +86,27 @@ class MiAdaptadorRecycler (var listas : ArrayList<Lista>, var  context: Context)
         //val avatar = view.findViewById(R.id.imgImagen) as ImageView
 
         //Como en el ejemplo general de las listas (ProbandoListas) vemos que se puede inflar cada elemento con una card o con un layout.
-        val nombreLista = view.findViewById(R.id.txtNombre) as TextView
-        val mes = view.findViewById(R.id.ponMes) as TextView
-        val dia = view.findViewById(R.id.ponDia) as TextView
+        val producto = view.findViewById(R.id.txtProducto) as TextView
+        val cantidad = view.findViewById(R.id.ponCant) as TextView
         /**
          * Éste método se llama desde el método onBindViewHolder de la clase contenedora. Como no vuelve a crear un objeto
          * sino que usa el ya creado en onCreateViewHolder, las asociaciones findViewById no vuelven a hacerse y es más eficiente.
          */
         @SuppressLint("ResourceAsColor")
-        fun bind(list: Lista, context: Context, pos: Int, miAdaptadorRecycler: MiAdaptadorRecycler){
-            nombreLista.text = list.nombre
-            mes.text = list.mes.toString()
-            dia.text = list.dia.toString()
-            if (pos == MiAdaptadorRecycler.seleccionado) {
-                with(nombreLista) {
+        fun bind(not: Nota, context: Context, pos: Int, miAdaptadorRecycler: MiAdaptadorRecycler2){
+            producto.text = not.producto
+            cantidad.text = not.cantidad.toString()
+            if (pos == MiAdaptadorRecycler2.seleccionado) {
+                with(producto) {
                     this.setTextColor(resources.getColor(R.color.blue))
                 }
-                mes.setTextColor(R.color.blue)
-                dia.setTextColor(R.color.blue)
+                cantidad.setTextColor(R.color.blue)
             }
             else {
-                with(nombreLista) {
+                with(producto) {
                     this.setTextColor(resources.getColor(R.color.black))
                 }
-                mes.setTextColor(R.color.black)
-                dia.setTextColor(R.color.black)
+                cantidad.setTextColor(R.color.black)
             }
 //            itemView.setOnLongClickListener(View.OnLongClickListener() {
 //                Log.e("ACSC0","long click")
@@ -122,11 +115,11 @@ class MiAdaptadorRecycler (var listas : ArrayList<Lista>, var  context: Context)
             //Se levanta una escucha para cada item. Si pulsamos el seleccionado pondremos la selección a -1, (deselecciona)
             // en otro caso será el nuevo sleccionado.
             itemView.setOnClickListener {
-                if (pos == MiAdaptadorRecycler.seleccionado){
-                    MiAdaptadorRecycler.seleccionado = -1
+                if (pos == MiAdaptadorRecycler2.seleccionado){
+                    MiAdaptadorRecycler2.seleccionado = -1
                 }
                 else {
-                    MiAdaptadorRecycler.seleccionado = pos
+                    MiAdaptadorRecycler2.seleccionado = pos
                 }
 
                 miAdaptadorRecycler.notifyDataSetChanged()

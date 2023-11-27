@@ -36,19 +36,10 @@ object Conexion {
         bd.close()
         return cant
     }
-
-    fun modLista(contexto:AppCompatActivity, nombre:String, l: Lista):Int {
+    fun delTodasListas(contexto: AppCompatActivity): Int {
         val admin = AdminSQLIteConexion(contexto, this.DATABASE_NAME, null, DATABASE_VERSION)
         val bd = admin.writableDatabase
-        val registro = ContentValues()
-        registro.put("mes", l.mes.toString())
-        registro.put("dia", l.dia.toString())
-        // val cant = bd.update("personas", registro, "dni='${dni}'", null)
-        val cant = bd.update("listas", registro, "nombre=?", arrayOf(nombre))
-        //val cant = bd.update("personas", registro, "dni=? AND activo=?", arrayOf(dni.toString(), activo.toString()))
-        //Esta línea de más arriba es para tener un ejemplo si el where tuviese más condiciones
-        //es mejor la forma de la línea 43 que la de la línea 42, ya que es peligroso inyectar sql directamente al controlarse peor los errores
-        //cant trae los datos actualizados.
+        val cant = bd.delete("listas", null, null) // Elimina todas las filas en la tabla "listas"
         bd.close()
         return cant
     }
