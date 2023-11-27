@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    @JvmOverload
     fun listarPersonas(view: View) {
         var lista = Conexion.obtenerPersonas(this)
         if (lista.size == 0) {
@@ -71,5 +70,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    annotation class JvmOverload
 }
