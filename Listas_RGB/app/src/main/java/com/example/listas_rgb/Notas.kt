@@ -67,7 +67,6 @@ class Notas() : AppCompatActivity() {
                 Conexion2.delNota(this,no.producto)
                 Toast.makeText(this, "Nota eliminada: ${no.producto}", Toast.LENGTH_SHORT).show()
                 // También puedes actualizar la lista en tu interfaz de usuario o recargarl
-                listaNotas.clear()
                 listaNotas = Conexion2.obtenerNotas(this)
                 var miAdapter = MiAdaptadorRecycler2(listaNotas, this)
                 //aquí es donde hace la "magia", al pasarle a mi Recicler View, el adaptador creado.
