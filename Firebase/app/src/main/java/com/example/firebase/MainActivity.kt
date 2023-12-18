@@ -81,6 +81,13 @@ class MainActivity : AppCompatActivity() {
         binding.btGoogle.setOnClickListener {
             loginEnGoogle()
         }
+
+
+
+        binding.btnStorage.setOnClickListener {
+            val storageIntent = Intent(this, UsoStorage::class.java)
+            startActivity(storageIntent)
+        }
     }
     //******************************* Para el login con Google ******************************
     //--------
@@ -155,4 +162,5 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         FirebaseAuth.getInstance().signOut()
     }
+
 }
