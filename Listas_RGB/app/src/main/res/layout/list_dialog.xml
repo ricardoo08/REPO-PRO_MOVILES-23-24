@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/edList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Lista"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/edDia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dia"
+        android:inputType="number" />
+
+    <ImageView
+        android:id="@+id/imgGal"
+        android:layout_width="86dp"
+        android:layout_height="113dp"
+        app:srcCompat="@drawable/notas" />
+
+</LinearLayout>

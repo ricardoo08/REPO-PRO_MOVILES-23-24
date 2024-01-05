@@ -1,84 +1,105 @@
 package com.example.listas_rgb
 
-import Adaptadores.MiAdaptadorRecycler
-import Adaptadores.MiAdaptadorRecycler2
-import Auxiliar.Conexion
-import Auxiliar.Conexion2
-import Modelo.Lista
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
+import Modelo.ListaDentro
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.listas_rgb.databinding.ActivityListasRecyclerBinding
+import com.example.listas_rgb.databinding.ActivityNotasBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ListasRecycler : AppCompatActivity() {
-    lateinit var binding: ActivityListasRecyclerBinding
+    private lateinit var binding: ActivityNotasBinding
+    private lateinit var email: String  // Asegúrate de obtener el email de alguna manera
 
-    lateinit var miRecyclerView : RecyclerView
-    companion   object {
-        @SuppressLint("StaticFieldLeak")
-        lateinit var contextoPrincipal: Context
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityListasRecyclerBinding.inflate(layoutInflater)
+        binding = ActivityNotasBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val listaPersonas: ArrayList<Lista> = intent.getParcelableArrayListExtra("lista_personas")!!
-        miRecyclerView = binding.recyclerView as RecyclerView
-        miRecyclerView.setHasFixedSize(true)//hace que se ajuste a lo que has diseñado
-        miRecyclerView.layoutManager = LinearLayoutManager(this)//se dice el tipo de Layout, dejampos este.
-        //esta es la clave. Creo un objeto de tipo Mi Adaptador y le paso la lista que he creado prevaimente más arriba.
-        //aquí, es donde inflará y pintará cada CardView.
-        var miAdapter = MiAdaptadorRecycler(listaPersonas, this)
-        //aquí es donde hace la "magia", al pasarle a mi Recicler View, el adaptador creado.
-        miRecyclerView.adapter = miAdapter
-        contextoPrincipal = this
-        binding.btVolver1.setOnClickListener {
-            // Manejar el clic en el botón de volver
-            finish() // Cierra la actividad actual y vuelve a la actividad anterior en el historial
-        }
-        binding.btEliminarLista.setOnClickListener {
-            if (MiAdaptadorRecycler.seleccionado >= 0) {
-                val li = listaPersonas.get(MiAdaptadorRecycler.seleccionado)
-                val db = FirebaseFirestore.getInstance()
-                Conexion.delLista(this,li.nombre)
 
-                Toast.makeText(this, "Lista eliminada: ${li.nombre}", Toast.LENGTH_SHORT).show()
-                // También puedes actualizar la lista en tu interfaz de usuario o recargarla
-                db.collection("listas")
-                    .document(li.nombre)
-                    .delete()
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Lista eliminada: ${li.nombre}", Toast.LENGTH_SHORT).show()
-                        val nuevaLista = Conexion.obtenerListas(this)
-                        var miAdapter = MiAdaptadorRecycler(nuevaLista, this)
-                        //aquí es donde hace la "magia", al pasarle a mi Recicler View, el adaptador creado.
-                        miRecyclerView.adapter = miAdapter
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "Error al intentar eliminar la lista: ${li.nombre}", Toast.LENGTH_SHORT).show()
-                    }
-            }
+        // Inicializa tu RecyclerView y su adaptador
 
+        // Obtén el email del usuario (de alguna manera, puede ser pasado desde la actividad anterior)
+        email = intent.getStringExtra("email").toString()
+        binding.intNombre.text = intent.getStringExtra("nombreLista").toString()
+        binding.intDia.text = intent.getStringExtra("diaLista")
+        binding.btnGuardar.setOnClickListener {
+            // Agrega un nuevo elemento a Firebase Firestore (esto es solo un ejemplo)
+            agregarElementoAFirestore()
         }
-        binding.btDetalle.setOnClickListener {
-            if (MiAdaptadorRecycler.seleccionado >= 0) {
-                val pe = listaPersonas.get(MiAdaptadorRecycler.seleccionado)
-                Log.e("ACSCO",pe.toString())
-                var inte : Intent = Intent(this, Notas::class.java)
-                inte.putExtra("obj",listaPersonas.get(MiAdaptadorRecycler.seleccionado))
-                ContextCompat.startActivity(HomeLog.contextoPrincipal, inte, null)
-            }
-            else {
-                Toast.makeText(this,"Selecciona algo previamente", Toast.LENGTH_SHORT).show()
-            }
+        binding.btnBorrar.setOnClickListener {
+            borrarDatosDesdeFirestore()
+            binding.txtNot.setText("")
         }
+        binding.btnVolver.setOnClickListener {
+            onBackPressed()        }
+        // Carga los datos desde Firestore al RecyclerView (puedes llamar a esta función según sea necesario)
+        cargarDatosDesdeFirestore(email)
+    }
+    private fun agregarElementoAFirestore() {
+        val nuevoItem = ListaDentro(binding.txtNot.text.toString())
+        val intNom = intent.getStringExtra("nombreLista").toString()
+
+        // Obtén la referencia al documento específico en la colección "notas"
+        val documentoRef =
+            FirebaseFirestore.getInstance().collection("users").document(email).collection("listas").document(intNom).collection("notas").document(intNom)
+
+        // Actualiza el documento existente con el nuevoItem
+        documentoRef.set(nuevoItem)
+            .addOnSuccessListener {
+                // Éxito al actualizar el documento
+                Log.d(TAG, "Documento actualizado con ID: ${documentoRef.id}")
+            }
+            .addOnFailureListener { e ->
+                // Error al actualizar el documento
+                Log.w(TAG, "Error al actualizar documento", e)
+            }
+    }
+    private fun cargarDatosDesdeFirestore(email: String) {
+        val db = FirebaseFirestore.getInstance()
+        val intNom = intent.getStringExtra("nombreLista").toString()
+
+        db.collection("users").document(email).collection("listas").document(intNom).collection("notas")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val descr = document.getString("descripcion") ?: ""
+                    binding.txtNot.setText(descr)
+                }
+
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error al obtener las notas", e)
+            }
+    }
+    private fun borrarDatosDesdeFirestore() {
+        val db = FirebaseFirestore.getInstance()
+        val intNom = intent.getStringExtra("nombreLista").toString()
+
+        // Elimina el documento de la colección en Firebase
+        db.collection("users")
+            .document(email)
+            .collection("listas")
+            .document(intNom).collection("notas").document(intNom)
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(
+                    this,
+                    "Lista eliminada",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error al eliminar la lista", e)
+                Toast.makeText(
+                    this,
+                    "Error al eliminar la lista",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
+    companion object {
+        private const val TAG = "ListasRecycler"
     }
 }

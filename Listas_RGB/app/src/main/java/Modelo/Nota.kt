@@ -1,3 +1,3 @@
 package Modelo
 
-data class Nota(var producto:String, var cantidad:Int)
+data class Nota(var nombre:String, var dia:Int)

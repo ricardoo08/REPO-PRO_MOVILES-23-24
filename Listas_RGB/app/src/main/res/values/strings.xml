@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Listas_RGB</string>
     <string name="your_web_client_id">807881816733-hujnmpve0e57n33k8og2uafeekk4l4om.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

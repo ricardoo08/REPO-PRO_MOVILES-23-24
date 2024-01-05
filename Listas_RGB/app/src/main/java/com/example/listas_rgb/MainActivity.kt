@@ -1,13 +1,23 @@
 package com.example.listas_rgb
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.example.firebase.Proveedor
 import com.example.listas_rgb.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -29,42 +39,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(
+                    "canal_id",
+                    "Nombre del canal",
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+                val notificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.createNotificationChannel(channel)
+            }
 
         //Para la autenticación, de cualquier tipo.
         firebaseauth = FirebaseAuth.getInstance()
         //------------------------------ Autenticación con email y password ------------------------------------
-        binding.btRegistrar.setOnClickListener {
-            if (binding.edEmail.text.isNotEmpty() && binding.edPass.text.isNotEmpty()){
-                firebaseauth.createUserWithEmailAndPassword(binding.edEmail.text.toString(),binding.edPass.text.toString()).addOnCompleteListener {
-                    if (it.isSuccessful){
-                        //irHome(it.result?.user?.email?:"",Proveedor.BASIC)  //Esto de los interrogantes es por si está vacío el email, que enviaría una cadena vacía.
-                    } else {
-                        showAlert("Error registrando al usuario.")
-                    }
-                }.addOnFailureListener{
-                    Toast.makeText(this, "Conexión no establecida", Toast.LENGTH_SHORT).show()
-                }
-            }
-            else {
-                showAlert("Rellene los campos")
-            }
-        }
 
-        binding.btLogin.setOnClickListener {
-            if (binding.edEmail.text.isNotEmpty() && binding.edPass.text.isNotEmpty()){
-                firebaseauth.signInWithEmailAndPassword(binding.edEmail.text.toString(),binding.edPass.text.toString()).addOnCompleteListener {
-                    if (it.isSuccessful){
-                        irHome(it.result?.user?.email?:"",Proveedor.BASIC)  //Esto de los interrogantes es por si está vacío el email.
-                    } else {
-                        showAlert()
-                    }
-                }.addOnFailureListener{
-                    Toast.makeText(this, "Conexión no establecida", Toast.LENGTH_SHORT).show()
-                }
-            }
-            else {
-                showAlert("Rellene los campos")
-            }
+        binding.btnAbre.setOnClickListener {
+            showLoginDialog()
         }
         firebaseauth.signOut()
         //clearGooglePlayServicesCache()
@@ -127,10 +118,8 @@ class MainActivity : AppCompatActivity() {
     }
     private fun irHome(email:String, provider: Proveedor, nombre:String = "Usuario"){
         Log.e(TAG,"Valores: ${email}, ${provider}, ${nombre}")
-        val homeIntent = Intent(this, HomeLog::class.java).apply {
+        val homeIntent = Intent(this, Home::class.java).apply {
             putExtra("email",email)
-            putExtra("provider",provider.name)
-            putExtra("nombre",nombre)
         }
         startActivity(homeIntent)
     }
@@ -140,6 +129,58 @@ class MainActivity : AppCompatActivity() {
         builder.setMessage(msg)
         builder.setPositiveButton("Aceptar",null)
         val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+    @SuppressLint("MissingInflatedId")
+    private fun showLoginDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.login_dialog, null)
+        val edEmail = dialogView.findViewById<EditText>(R.id.edList)
+        val edPass = dialogView.findViewById<EditText>(R.id.edDia)
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Inicia Sesión con App")
+            .setView(dialogView)
+            .setPositiveButton("Registrarse") { _, _ ->
+                // Aquí puedes manejar la lógica de inicio de sesión
+                val email = edEmail.text.toString()
+                val password = edPass.text.toString()
+                if (password.isNotEmpty() && email.isNotEmpty()){
+                    firebaseauth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
+                        if (it.isSuccessful){
+                            //irHome(it.result?.user?.email?:"",Proveedor.BASIC)  //Esto de los interrogantes es por si está vacío el email, que enviaría una cadena vacía.
+                        } else {
+                            showAlert("Error registrando al usuario.")
+                        }
+                    }.addOnFailureListener { exception ->
+                        Toast.makeText(this, "Error de autenticación: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else {
+                    showAlert("Rellene los campos")
+                }
+            }
+            .setNegativeButton("Inicia sesión") { _, _ ->
+                // Aquí puedes manejar la lógica de inicio de sesión
+                val email = edEmail.text.toString()
+                val password = edPass.text.toString()
+                if (email.isNotEmpty() && password.isNotEmpty()){
+                    firebaseauth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
+                        if (it.isSuccessful){
+                            irHome(it.result?.user?.email?:"",Proveedor.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                        } else {
+                            showAlert()
+                        }
+                    }.addOnFailureListener{
+                        Toast.makeText(this, "Conexión no establecida", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else {
+                    showAlert("Rellene los campos")
+                }
+            }
+            .setNeutralButton("Cancelar", null)
+            .create()
+
         dialog.show()
     }
 }
